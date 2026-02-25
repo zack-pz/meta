@@ -1,4 +1,4 @@
-# Práctica 2: Temple Simulado (Simulated Annealing)
+# Práctica 3: Temple Simulado (Simulated Annealing)
 
 Este directorio contiene dos implementaciones del algoritmo de Temple Simulado aplicadas a la optimización de la función **Peaks**.
 
