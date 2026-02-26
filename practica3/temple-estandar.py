@@ -119,7 +119,8 @@ plt.legend()
 plt.grid(True)
 plt.xlim(lower_bound[0], upper_bound[0])
 plt.ylim(lower_bound[1], upper_bound[1])
-plt.show()
+# plt.show()
+plt.savefig('temple-estandar-img.png')
 
 # ---------------------
 # Resultado final
