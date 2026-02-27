@@ -39,19 +39,19 @@ FinAlgoritmo
 ```mermaid
 graph TD
     A[Inicio] --> B[Inicializar x_actual, tasa_aprendizaje, <br>Max_Iteraciones, historial, iteración=0]
-    B --> C{¿iteración < Max_Iteraciones?}
+    B --> C{"¿iteración < Max_Iteraciones?"}
     
-    C -- Sí --> D[Calcular Gradiente:<br>grad = 2 * x_actual - 5]
-    D --> E[Actualizar Posición:<br>x_actual = x_actual - tasa * grad]
+    C -- Sí --> D["Calcular Gradiente:<br>grad = 2 * x_actual - 5"]
+    D --> E["Actualizar Posición:<br>x_actual = x_actual - tasa * grad"]
     E --> F[Agregar x_actual a historial]
     
-    F --> G{¿(iteración + 1) % 10 == 0?}
+    F --> G{"¿(iteración + 1) % 10 == 0?"}
     G -- Sí --> H[Imprimir reporte de progreso]
     G -- No --> I[Incrementar iteración]
     H --> I
     I --> C
     
-    C -- No --> J[Retornar historial y <br>Generar gráfica]
+    C -- No --> J["Retornar historial y <br>Generar gráfica"]
     J --> K[Fin]
 ```
 
