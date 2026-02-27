@@ -1,68 +1,66 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def funcion_objetivo(x, y):
+def funcion_objetivo(x):
     """
-    Función cuadrática simple: f(x, y) = x^2 + y^2
-    El mínimo global está en (0, 0).
+    Función objetivo: f(x) = x^2 - 5x + 10
     """
-    return x**2 + y**2
+    return x**2 - 5*x + 10
 
-def gradiente(x, y):
+def gradiente(x):
     """
-    Cálculo manual del gradiente de f(x, y) = x^2 + y^2
-    df/dx = 2x
-    df/dy = 2y
+    Derivada de f(x): f'(x) = 2x - 5
     """
-    return np.array([2*x, 2*y])
+    return 2*x - 5
 
 def gradiente_descendente(punto_inicial, tasa_aprendizaje, iteraciones):
     """
-    Implementación del algoritmo de Gradiente Descendente.
+    Algoritmo de Gradiente Descendente para una dimensión.
     """
     historial_puntos = [punto_inicial]
-    punto_actual = np.array(punto_inicial)
+    punto_actual = punto_inicial
     
-    print(f"Iniciando Gradiente Descendente en {punto_inicial}")
+    print(f"Iniciando Gradiente Descendente en x = {punto_inicial}")
     
     for i in range(iteraciones):
         # Calcular el gradiente en el punto actual
-        grad = gradiente(punto_actual[0], punto_actual[1])
+        grad = gradiente(punto_actual)
         
         # Actualizar el punto: x = x - lr * gradiente
         punto_actual = punto_actual - tasa_aprendizaje * grad
         
         historial_puntos.append(punto_actual)
         
-        if (i + 1) % 10 == 0:
-            error = funcion_objetivo(punto_actual[0], punto_actual[1])
-            print(f"Iteración {i+1}: Punto {punto_actual}, Valor f(x,y): {error:.6f}")
+        if (i + 1) % 5 == 0:
+            valor = funcion_objetivo(punto_actual)
+            print(f"Iteración {i+1}: x = {punto_actual:.4f}, f(x) = {valor:.6f}")
             
     return np.array(historial_puntos)
 
 # Configuración del algoritmo
-punto_inicio = [4.0, 4.0]
+punto_inicio = 0.0  # Empezamos desde x = 0
 tasa_aprendizaje = 0.1
-num_iteraciones = 50
+num_iteraciones = 40
 
 # Ejecución
 trayectoria = gradiente_descendente(punto_inicio, tasa_aprendizaje, num_iteraciones)
 
-# Visualización
-x = np.linspace(-5, 5, 100)
-y = np.linspace(-5, 5, 100)
-X, Y = np.meshgrid(x, y)
-Z = funcion_objetivo(X, Y)
+# Visualización en 2D (x vs f(x))
+x_vals = np.linspace(-2, 7, 400)
+y_vals = funcion_objetivo(x_vals)
 
-plt.figure(figsize=(10, 8))
-plt.contour(X, Y, Z, levels=20, cmap='viridis')
-plt.plot(trayectoria[:, 0], trayectoria[:, 1], 'ro-', markersize=3, label='Trayectoria del Gradiente')
-plt.plot(0, 0, 'b*', markersize=15, label='Mínimo Real (0,0)')
-plt.title(f'Gradiente Descendente (lr={tasa_aprendizaje})')
+plt.figure(figsize=(10, 6))
+plt.plot(x_vals, y_vals, label='f(x) = x² - 5x + 10', color='blue', alpha=0.6)
+plt.plot(trayectoria, funcion_objetivo(trayectoria), 'ro-', markersize=5, label='Trayectoria del Gradiente')
+
+# Marcar el mínimo real (f'(x)=0 -> 2x - 5 = 0 -> x = 2.5)
+plt.plot(2.5, funcion_objetivo(2.5), 'g*', markersize=15, label='Mínimo Real (2.5, 3.75)')
+
+plt.title(f'Gradiente Descendente: f(x) = x² - 5x + 10 (lr={tasa_aprendizaje})')
 plt.xlabel('x')
-plt.ylabel('y')
+plt.ylabel('f(x)')
 plt.legend()
 plt.grid(True)
-#plt.show()
+
 plt.savefig('trayectoria_gradiente.png')
-print("Gráfica guardada como 'trayectoria_gradiente.png'")
+print("\nGráfica guardada como 'trayectoria_gradiente.png'")
