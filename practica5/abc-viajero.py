@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 def generar_ciudades(n_ciudades=20, semilla=7):
@@ -118,6 +120,61 @@ def abc_tsp(
     return mejor_ruta, mejor_costo, np.array(historial)
 
 
+def cerrar_ruta(ruta):
+    """Devuelve la ruta cerrada agregando el nodo inicial al final."""
+    return np.append(ruta, ruta[0])
+
+
+def construir_camino_nodos(ruta):
+    """Construye el camino como lista de aristas (nodo_origen, nodo_destino)."""
+    ruta_cerrada = cerrar_ruta(ruta)
+    return [(int(a), int(b)) for a, b in zip(ruta_cerrada[:-1], ruta_cerrada[1:])]
+
+
+def graficar_ruta(ciudades, ruta, archivo_salida="practica5/abc-viajero-ruta.png"):
+    """Grafica nodos y camino de la mejor ruta TSP."""
+    ruta_cerrada = cerrar_ruta(ruta)
+    recorrido = ciudades[ruta_cerrada]
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(
+        recorrido[:, 0],
+        recorrido[:, 1],
+        "-o",
+        color="tab:blue",
+        linewidth=1.5,
+        markersize=5,
+    )
+
+    for i, (x, y) in enumerate(ciudades):
+        plt.text(x + 1.0, y + 1.0, str(i), fontsize=8)
+
+    # Resaltar nodo de inicio/fin
+    inicio = ruta[0]
+    plt.scatter(
+        ciudades[inicio, 0],
+        ciudades[inicio, 1],
+        color="red",
+        s=70,
+        zorder=3,
+        label=f"Inicio/fin ({inicio})",
+    )
+
+    plt.title("ABC para TSP - Camino con nodos")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+
+    salida = Path(archivo_salida)
+    salida.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(salida, dpi=150)
+    plt.close()
+
+    return str(salida)
+
+
 if __name__ == "__main__":
     ciudades = generar_ciudades(n_ciudades=20, semilla=7)
     distancias = matriz_distancias(ciudades)
@@ -130,9 +187,14 @@ if __name__ == "__main__":
         semilla=42,
     )
 
-    ruta_legible = " -> ".join(map(str, mejor_ruta.tolist() + [mejor_ruta[0]]))
+    ruta_cerrada = cerrar_ruta(mejor_ruta)
+    ruta_legible = " -> ".join(map(str, ruta_cerrada.tolist()))
+    camino_nodos = construir_camino_nodos(mejor_ruta)
+    archivo_grafica = graficar_ruta(ciudades, mejor_ruta)
 
     print("\nRESULTADO FINAL (ABC para TSP):")
     print(f"Mejor distancia encontrada: {mejor_distancia:.2f}")
     print(f"Ruta: {ruta_legible}")
+    print(f"Camino (aristas nodo->nodo): {camino_nodos}")
     print(f"Historial (último valor): {historial[-1]:.2f}")
+    print(f"Gráfica guardada en: {archivo_grafica}")
