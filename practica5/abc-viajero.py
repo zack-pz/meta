@@ -175,6 +175,26 @@ def graficar_ruta(ciudades, ruta, archivo_salida="practica5/abc-viajero-ruta.png
     return str(salida)
 
 
+def graficar_convergencia(
+    historial, archivo_salida="practica5/abc-viajero-convergencia.png"
+):
+    """Grafica la mejor distancia por iteración."""
+    plt.figure(figsize=(8, 4.5))
+    plt.plot(historial, color="tab:green", linewidth=2)
+    plt.title("ABC para TSP - Convergencia")
+    plt.xlabel("Iteración")
+    plt.ylabel("Mejor distancia acumulada")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+
+    salida = Path(archivo_salida)
+    salida.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(salida, dpi=150)
+    plt.close()
+
+    return str(salida)
+
+
 if __name__ == "__main__":
     ciudades = generar_ciudades(n_ciudades=20, semilla=7)
     distancias = matriz_distancias(ciudades)
@@ -191,6 +211,7 @@ if __name__ == "__main__":
     ruta_legible = " -> ".join(map(str, ruta_cerrada.tolist()))
     camino_nodos = construir_camino_nodos(mejor_ruta)
     archivo_grafica = graficar_ruta(ciudades, mejor_ruta)
+    archivo_convergencia = graficar_convergencia(historial)
 
     print("\nRESULTADO FINAL (ABC para TSP):")
     print(f"Mejor distancia encontrada: {mejor_distancia:.2f}")
@@ -198,3 +219,4 @@ if __name__ == "__main__":
     print(f"Camino (aristas nodo->nodo): {camino_nodos}")
     print(f"Historial (último valor): {historial[-1]:.2f}")
     print(f"Gráfica guardada en: {archivo_grafica}")
+    print(f"Convergencia guardada en: {archivo_convergencia}")
