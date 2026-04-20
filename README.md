@@ -1,52 +1,91 @@
-# Optimización con Simulated Annealing (Recocido Simulado)
+# Repositorio de algoritmos metaheurísticos y optimización
 
-Este proyecto implementa el algoritmo de **Recocido Simulado** (Simulated Annealing) para encontrar el mínimo global de la función matemática `peaks`. El código incluye una mejora de "saltos aleatorios" para evitar que el algoritmo se quede atrapado en mínimos locales.
+Este repositorio reúne las prácticas y ejercicios de **optimización** trabajados en clase, con enfoque principal en la implementación de **algoritmos metaheurísticos**. La idea es documentar y comparar distintas estrategias de búsqueda para resolver problemas de optimización, tanto deterministas como bioinspirados.
 
-## Características del Código
+## Objetivo del repositorio
 
-- **Función Objetivo:** Utiliza la función `peaks` (común en optimización) que presenta múltiples picos y valles.
-- **Enfriamiento Adaptativo:** La temperatura disminuye gradualmente para pasar de una exploración amplia a una explotación local.
-- **Saltos Aleatorios:** Si tras un número determinado de iteraciones no hay mejora, el algoritmo salta a una nueva posición aleatoria y "recalienta" ligeramente el sistema.
-- **Visualización:** Genera un gráfico de contorno con la trayectoria del algoritmo, los puntos de inicio, los saltos realizados y la mejor solución encontrada.
+Centralizar los algoritmos que fueron dejados en la clase, mostrando su lógica, su implementación en Python y, en varios casos, su comportamiento mediante visualizaciones.
+
+## Algoritmos implementados
+
+### 1. Gradiente descendente en 1D
+- **Ubicación:** `practica2/gradiante.py`
+- **Tipo:** algoritmo de optimización determinista
+- **Descripción breve:** minimiza la función `f(x) = x^2 - 5x + 10` avanzando en dirección opuesta al gradiente. Aunque no es una metaheurística, sirve como base para entender cómo una estrategia de búsqueda mejora una solución paso a paso.
+
+### 2. Temple simulado estándar
+- **Ubicación:** `practica3/temple-estandar.py`
+- **Tipo:** metaheurística
+- **Descripción breve:** explora la función `Peaks` permitiendo aceptar, con cierta probabilidad, soluciones peores cuando la temperatura es alta. Esto ayuda a evitar quedar atrapado demasiado pronto en mínimos locales.
+
+### 3. Temple simulado híbrido (versión de clase)
+- **Ubicación:** `practica3/temple-clase.py`
+- **Tipo:** metaheurística
+- **Descripción breve:** es una variante del temple simulado que agrega **detección de estancamiento**, **saltos aleatorios** y **recalentamiento**. Su objetivo es mejorar la exploración del espacio de búsqueda y escapar con más facilidad de óptimos locales.
+
+### 4. Optimización por enjambre de partículas (PSO)
+- **Ubicación:** `practica4/pso-simple.py`
+- **Tipo:** metaheurística
+- **Descripción breve:** simula un conjunto de partículas que se mueven por el espacio de búsqueda ajustando su trayectoria según su mejor posición individual y la mejor posición global encontrada por el enjambre.
+
+### 5. Artificial Bee Colony (ABC)
+- **Ubicación:** `ABC/abc.py`
+- **Tipo:** metaheurística
+- **Descripción breve:** está inspirado en el comportamiento de búsqueda de alimento de una colonia de abejas. Las soluciones candidatas se refinan mediante exploración y explotación para encontrar mejores valores de aptitud.
+
+## Estructura del proyecto
+
+```text
+.
+├── ABC/
+│   └── abc.py
+├── practica2/
+│   ├── ALGORITMOS.md
+│   └── gradiante.py
+├── practica3/
+│   ├── ALGORITMOS.md
+│   ├── README.md
+│   ├── temple-clase.py
+│   └── temple-estandar.py
+├── practica4/
+│   └── pso-simple.py
+├── README.md
+└── requirements.txt
+```
 
 ## Requisitos
 
-Las dependencias principales son:
+Las dependencias usadas en el repositorio son:
+
 - `numpy`
 - `matplotlib`
 
-## Configuración del Entorno
-
-### Opción 1: Usando `venv` (Estándar)
-
-1. Crear el entorno virtual:
-   ```bash
-   python -m venv .venv
-   ```
-2. Activar el entorno:
-   - **Linux/macOS:** `source .venv/bin/activate`
-   - **Windows:** `.venv\Scripts\activate`
-3. Instalar dependencias:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Opción 2: Usando `uv` (Recomendado por velocidad)
-
-1. Crear el entorno e instalar dependencias:
-   ```bash
-   uv venv
-   source .venv/bin/activate  # O el comando de activación correspondiente
-   uv pip install -r requirements.txt
-   ```
-   *Nota: También puedes usar `uv run template.py` directamente si tienes `uv` configurado.*
-
-## Ejecución
-
-Para ejecutar el script y ver la visualización de la optimización:
+Instalación:
 
 ```bash
-python template.py
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-Al finalizar, se abrirá una ventana con el gráfico de la optimización y se imprimirán los resultados en la terminal.
+## Ejecución de los ejemplos
+
+Desde la raíz del proyecto podés ejecutar cada práctica con comandos como estos:
+
+```bash
+python practica2/gradiante.py
+python practica3/temple-estandar.py
+python practica3/temple-clase.py
+python practica4/pso-simple.py
+python ABC/abc.py
+```
+
+## Documentación adicional
+
+- `practica2/ALGORITMOS.md`: pseudocódigo y explicación del gradiente descendente.
+- `practica3/ALGORITMOS.md`: pseudocódigo y diagramas de flujo de las variantes de temple simulado.
+- `practica3/README.md`: explicación comparativa entre temple estándar y temple híbrido.
+
+## Enfoque académico
+
+Este repositorio está orientado al aprendizaje y análisis de algoritmos vistos en clase. Más que presentar una librería lista para producción, busca dejar claro **cómo funciona cada algoritmo**, **qué problema resuelve** y **cómo cambia su comportamiento según la estrategia de búsqueda utilizada**.
