@@ -33,6 +33,11 @@ Centralizar los algoritmos que fueron dejados en la clase, mostrando su lógica,
 - **Tipo:** metaheurística
 - **Descripción breve:** está inspirado en el comportamiento de búsqueda de alimento de una colonia de abejas. Las soluciones candidatas se refinan mediante exploración y explotación para encontrar mejores valores de aptitud.
 
+### 6. Umbralización simple con ABC
+- **Ubicación:** `practica6/abc-umbralizacion.py`
+- **Tipo:** metaheurística aplicada a procesamiento de imágenes
+- **Descripción breve:** utiliza Artificial Bee Colony para optimizar un umbral binario de una imagen en escala de grises maximizando la varianza entre clases (criterio de Otsu).
+
 ## Estructura del proyecto
 
 ```text
@@ -49,6 +54,12 @@ Centralizar los algoritmos que fueron dejados en la clase, mostrando su lógica,
 │   └── temple-estandar.py
 ├── practica4/
 │   └── pso-simple.py
+├── practica5/
+│   ├── abc-viajero.py
+│   └── README.md
+├── practica6/
+│   ├── abc-umbralizacion.py
+│   └── README.md
 ├── README.md
 └── requirements.txt
 ```
@@ -78,6 +89,8 @@ python practica3/temple-estandar.py
 python practica3/temple-clase.py
 python practica4/pso-simple.py
 python ABC/abc.py
+python practica5/abc-viajero.py
+python practica6/abc-umbralizacion.py --imagen "practica6/metal_flesh.jpg"
 ```
 
 ## Documentación adicional
